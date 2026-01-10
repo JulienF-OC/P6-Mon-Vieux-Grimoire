@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const userRoutes = require("./routes/user");
+const bookRoutes = require("./routes/book"); // ← AJOUT
 
 const app = express();
 
@@ -29,11 +30,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// Route pour servir les images statiques  ← AJOUT
+app.use("/images", express.static("images"));
+
 // Route de test
 app.get("/", (req, res) => {
   res.json({ message: "API Mon Vieux Grimoire" });
 });
 
+// Routes
 app.use("/api/auth", userRoutes);
+app.use("/api/books", bookRoutes); // ← AJOUT
 
 module.exports = app;
