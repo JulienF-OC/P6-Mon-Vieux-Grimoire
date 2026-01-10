@@ -8,6 +8,7 @@ const bookCtrl = require("../controllers/book");
 
 // Routes publiques
 router.get("/", bookCtrl.getAllBooks);
+router.get("/bestrating", bookCtrl.getBestRating);
 router.get("/:id", bookCtrl.getOneBook);
 
 router.post("/:id/rating", auth, bookCtrl.rateBook);

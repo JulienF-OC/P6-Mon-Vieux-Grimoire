@@ -59,7 +59,7 @@ exports.modifyBook = (req, res, next) => {
   // On cherche le livre
   Book.findOne({ _id: req.params.id })
     .then((book) => {
-      // Vérification : l'utilisateur créateur du livre ?
+      // Vérification  l'utilisateur créateur du livre ?
       if (book.userId != req.auth.userId) {
         res.status(403).json({ message: "Non autorisé" });
       } else {
@@ -93,7 +93,7 @@ exports.modifyBook = (req, res, next) => {
 exports.deleteBook = (req, res, next) => {
   Book.findOne({ _id: req.params.id })
     .then((book) => {
-      // Vérification : utilisateur créateur du livre ?
+      // Vérification  utilisateur créateur du livre ?
       if (book.userId != req.auth.userId) {
         res.status(403).json({ message: "Non autorisé" });
       } else {
@@ -112,11 +112,11 @@ exports.deleteBook = (req, res, next) => {
 
 // Noter un livre
 exports.rateBook = (req, res, next) => {
-  // Récupération de la note envoyée par le frontend (entre 0 et 5)
+  // Récupération de la note 
   const rating = req.body.rating;
   const userId = req.auth.userId;
 
-  // Validation : la note doit être entre 0 et 5
+  // Validation  la note doit être entre 0 et 5
   if (rating < 0 || rating > 5) {
     return res.status(400).json({ message: "La note doit être entre 0 et 5" });
   }
@@ -128,7 +128,7 @@ exports.rateBook = (req, res, next) => {
         return res.status(404).json({ message: "Livre non trouvé" });
       }
 
-      // Vérification : l'utilisateur a-t-il déjà noté ce livre ?
+      // Vérification  utilisateur déjà noté livre ?
       const existingRating = book.ratings.find((r) => r.userId === userId);
       if (existingRating) {
         return res
