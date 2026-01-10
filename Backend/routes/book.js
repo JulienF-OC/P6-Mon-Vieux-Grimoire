@@ -2,17 +2,17 @@ const express = require("express");
 const router = express.Router();
 
 const auth = require("../middleware/auth");
-const multer = require("../middleware/multer-config");
+const { upload, optimizeImage } = require("../middleware/multer-config");
 
 const bookCtrl = require("../controllers/book");
 
-// Routes publiques (pas besoin d'être connecté)
+// Routes publiques
 router.get("/", bookCtrl.getAllBooks);
 router.get("/:id", bookCtrl.getOneBook);
 
-// Routes protégées (besoin d'être connecté)
-router.post("/", auth, multer, bookCtrl.createBook);
-router.put("/:id", auth, multer, bookCtrl.modifyBook);
+// Routes protégées
+router.post("/", auth, upload, optimizeImage, bookCtrl.createBook);
+router.put("/:id", auth, upload, optimizeImage, bookCtrl.modifyBook);
 router.delete("/:id", auth, bookCtrl.deleteBook);
 
 module.exports = router;
