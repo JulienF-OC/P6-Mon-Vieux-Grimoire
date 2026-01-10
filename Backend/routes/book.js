@@ -10,6 +10,8 @@ const bookCtrl = require("../controllers/book");
 router.get("/", bookCtrl.getAllBooks);
 router.get("/:id", bookCtrl.getOneBook);
 
+router.post("/:id/rating", auth, bookCtrl.rateBook);
+
 // Routes protégées
 router.post("/", auth, upload, optimizeImage, bookCtrl.createBook);
 router.put("/:id", auth, upload, optimizeImage, bookCtrl.modifyBook);
