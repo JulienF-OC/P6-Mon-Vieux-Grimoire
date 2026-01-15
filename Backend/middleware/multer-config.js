@@ -1,7 +1,6 @@
 const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
-const fs = require("fs");
 
 // Types acceptés
 const MIME_TYPES = {
@@ -33,7 +32,11 @@ const optimizeImage = (req, res, next) => {
 
   // Optimisation avec Sharp
   sharp(req.file.buffer)
-    .resize({ width: 500, height: 500, fit: "inside" })
+    .resize({
+      width: 500,
+      height: 500,
+      fit: "cover",
+    })
     .webp({ quality: 80 })
     .toFile(outputPath)
     .then(() => {
@@ -47,5 +50,5 @@ const optimizeImage = (req, res, next) => {
     });
 };
 
-// On exporte les middlewares
+// On exporte
 module.exports = { upload, optimizeImage };

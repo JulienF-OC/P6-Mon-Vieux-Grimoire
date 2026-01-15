@@ -112,7 +112,7 @@ exports.deleteBook = (req, res, next) => {
 
 // Noter un livre
 exports.rateBook = (req, res, next) => {
-  // Récupération de la note 
+  // Récupération de la note
   const rating = req.body.rating;
   const userId = req.auth.userId;
 
@@ -151,4 +151,13 @@ exports.rateBook = (req, res, next) => {
         .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
+};
+
+// Récupérer les 3 livres les mieux notés
+exports.getBestRating = (req, res, next) => {
+  Book.find()
+    .sort({ averageRating: -1 }) // Tri décroissant (-1) par averageRating
+    .limit(3) // Limite à 3 résultats
+    .then((books) => res.status(200).json(books))
+    .catch((error) => res.status(400).json({ error }));
 };

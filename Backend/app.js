@@ -33,11 +33,6 @@ app.use((req, res, next) => {
 // Route pour servir les images statiques  ← AJOUT
 app.use("/images", express.static("images"));
 
-// Route de test
-app.get("/", (req, res) => {
-  res.json({ message: "API Mon Vieux Grimoire" });
-});
-
 // Routes
 app.use("/api/auth", userRoutes);
 app.use("/api/books", bookRoutes); // ← AJOUT
