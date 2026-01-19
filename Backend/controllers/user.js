@@ -41,9 +41,8 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
-  //  STATUS 200 (Axios)
   if (!email || !password) {
-    return res.status(200).json({
+    return res.status(400).json({
       message: "Email et mot de passe requis.",
     });
   }
@@ -51,14 +50,14 @@ exports.login = (req, res, next) => {
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        return res.status(200).json({
+        return res.status(401).json({
           message: "Email incorrect.",
         });
       }
 
       bcrypt.compare(password, user.password).then((valid) => {
         if (!valid) {
-          return res.status(200).json({
+          return res.status(401).json({
             message: "Mot de passe incorrect.",
           });
         }
@@ -73,7 +72,7 @@ exports.login = (req, res, next) => {
       });
     })
     .catch(() => {
-      return res.status(200).json({
+      return res.status(500).json({
         message: "Erreur lors de la connexion.",
       });
     });
