@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
     // Tout est bon, on passe au controller suivant
     next();
   } catch (error) {
-    // Si quelque chose ne va pas (pas de token, token invalide, etc.)
+    // Si erreur (pas de token, token invalide, etc.)
     res.status(401).json({ error: "Requête non authentifiée" });
   }
 };

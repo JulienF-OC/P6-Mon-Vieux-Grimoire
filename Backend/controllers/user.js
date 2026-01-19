@@ -11,36 +11,29 @@ exports.signup = (req, res, next) => {
       message: "Email et mot de passe requis.",
     });
   }
-  bcrypt
-    .hash(password, 10)
-    .then((hash) => {
-      const user = new User({
-        email,
-        password: hash,
-      });
-      user
-        .save()
-        .then(() => {
-          res.status(201).json({
-            message: "Compte créé avec succès !",
-          });
-        })
-        .catch((error) => {
-          if (error.code === 11000) {
-            return res.status(409).json({
-              message: "Cet email est déjà utilisé.",
-            });
-          }
-          return res.status(500).json({
-            message: "Une erreur est survenue lors de la création du compte.",
-          });
-        });
-    })
-    .catch(() => {
-      return res.status(500).json({
-        message: "Erreur serveur.",
-      });
+  bcrypt.hash(password, 10).then((hash) => {
+    const user = new User({
+      email,
+      password: hash,
     });
+    user
+      .save()
+      .then(() => {
+        res.status(201).json({
+          message: "Compte créé avec succès !",
+        });
+      })
+      .catch((error) => {
+        if (error.code === 11000) {
+          return res.status(409).json({
+            message: "Cet email est déjà utilisé.",
+          });
+        }
+        return res.status(500).json({
+          message: "Une erreur est survenue lors de la création du compte.",
+        });
+      });
+  });
 };
 
 /*  CONNEXION */
@@ -48,7 +41,7 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
-  //  STATUS 200 OBLIGATOIRE (Axios)
+  //  STATUS 200 (Axios)
   if (!email || !password) {
     return res.status(200).json({
       message: "Email et mot de passe requis.",
@@ -70,7 +63,7 @@ exports.login = (req, res, next) => {
           });
         }
 
-        // ✅ Succès
+        //  Succès
         res.status(200).json({
           userId: user._id,
           token: jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
