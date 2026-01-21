@@ -45,7 +45,6 @@ const optimizeImage = (req, res, next) => {
       next();
     })
     .catch((error) => {
-      console.error("Erreur lors de l'optimisation de l'image:", error);
       res.status(500).json({ error: "Erreur lors du traitement de l'image" });
     });
 };

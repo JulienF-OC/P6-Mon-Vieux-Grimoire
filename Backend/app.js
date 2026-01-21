@@ -8,10 +8,9 @@ const bookRoutes = require("./routes/book");
 const app = express();
 
 // Connexion à MongoDB
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+mongoose.connect(process.env.MONGODB_URI).catch((error) => {
+  throw new Error("Connexion à MongoDB échouée");
+});
 
 // Middleware
 app.use(express.json());
@@ -30,11 +29,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Route pour servir les images statiques  ← AJOUT
+// Route pour servir les images statiques
 app.use("/images", express.static("images"));
 
 // Routes
 app.use("/api/auth", userRoutes);
-app.use("/api/books", bookRoutes); // ← AJOUT
+app.use("/api/books", bookRoutes);
 
 module.exports = app;
